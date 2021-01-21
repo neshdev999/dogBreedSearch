@@ -1,10 +1,10 @@
-/* Drop Down */
-function generateMainInputTextBox(breed) {
-    const mainInputTextBoxBase = mainInputTextBox(breed);
+/* Input Text Box */
+function generateMainInputTextBox() {
+    const mainInputTextBoxBase = mainInputTextBox();
     $('.inputBreedMainDropDown').append(mainInputTextBoxBase);
 }
 
-function mainInputTextBox(fetchBreed) {
+function mainInputTextBox() {
 
     return `<input id="dog-select" type="text" id="name" name="name" required
     minlength="0" maxlength="25" size="10" pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity(validationCheck())"  placeholder="Enter favorite">`;
@@ -58,11 +58,9 @@ function getDogImage(breedType, defaultValAvailCheck) {
                 }else if(responseJson.status === "error"){
                     throw '🤪Dog breed not found. Not a good dog fan?😪Please try again with other breed name😀🤣';
                 }
-                // console.log(responseJson);
             }
         )
         .catch(error => {
-            // console.log(error);
             $('#serverErrorReportContainer').css('display','block');
             $('#serverErrorReportContainer').text(error);
         });
@@ -94,10 +92,7 @@ function watchForm() {
 
             /* pass this value to fetching function */
             getDogImage(userSelectedBreed, false);
-
         }
-
-
     });
 }
 
@@ -157,13 +152,13 @@ $(window).bind("load", function() {
 
 /* Initialize App */
 $(function() {
-    // get Breed List loaded First
+    // get Breed List loaded First when default random image appears
     (async() => {
         let response = await fetch('https://dog.ceo/api/breeds/list/all');
         let responseJson = await response.json();
         const temp = await generateBreedsArray(responseJson);
         const breed = temp;
-        generateMainInputTextBox(breed);
+        generateMainInputTextBox();
         initialDefaultDogImages(breed);
         watchForm();
         generateFooter();
