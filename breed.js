@@ -6,6 +6,5 @@ async function generateBreedsArray(responseJson){
           name: responseJson["message"][element]  
       });  
   }  
-  console.log(outputArray); 
   return outputArray;
 }
