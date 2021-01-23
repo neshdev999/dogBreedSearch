@@ -6,16 +6,9 @@ function generateMainInputTextBox() {
 
 function mainInputTextBox() {
 
-    return `<input id="dog-select" type="text" id="name" name="name" required
-    minlength="0" maxlength="25" size="10" pattern="[a-zA-Z]+" oninvalid="this.setCustomValidity(validationCheck())"  placeholder="Enter favorite">`;
-}
-
-function validationCheck(){
-    if($('#dog-select').val() === ""){
-        return "This field can not be left blank";
-    }else{
-        return "Plese enter alphabets only";
-    }
+    return `<input id="dog-select" type="text" id="name" name="name" required aria-pressed="false" 
+    minlength="0" maxlength="25" size="10" pattern="[a-zA-Z]+" onkeypress="return (event.charCode > 64 && 
+        event.charCode < 91) || (event.charCode > 96 && event.charCode < 123)">`;
 }
 
 /* Random number generator */
@@ -67,6 +60,21 @@ function getDogImage(breedType, defaultValAvailCheck) {
 }
 
 /* Handle actions after form submission */
+
+function handleEnterClicks(){
+    
+    $("#dog-select").keyup(function(event) {
+        if (event.keyCode === 13) {
+            $("#dog-select").attr('aria-pressed', true)
+            const pressedBool = $('#dog-select').attr('aria-pressed') === 'true';
+            console.log(pressedBool);
+            if(pressedBool){
+                $('#submitButtonId').click();
+            }        
+        }
+    });
+}
+
 function watchForm() {
     $('form').submit(event => {
         event.preventDefault();
@@ -83,16 +91,15 @@ function watchForm() {
         $('#serverErrorReportContainer').css('display','none');
         $('#serverErrorReportContainer').text("");
 
-        if (($('#dog-select').val()) === "") {
-            alert("Please Enter Breed Type");
-        } else {
-            /* Get Breed of Dog From user */
-            var tempInputStringHolder = $('#dog-select').val();
-            var userSelectedBreed = tempInputStringHolder.toLowerCase();
 
-            /* pass this value to fetching function */
-            getDogImage(userSelectedBreed, false);
-        }
+        /* Get Breed of Dog From user */
+        var tempInputStringHolder = $('#dog-select').val();
+        var userSelectedBreed = tempInputStringHolder.toLowerCase();
+
+        /* pass this value to fetching function */
+        getDogImage(userSelectedBreed, false);
+        
+
     });
 }
 
@@ -160,6 +167,7 @@ $(function() {
         const breed = temp;
         generateMainInputTextBox();
         initialDefaultDogImages(breed);
+        handleEnterClicks();
         watchForm();
         generateFooter();
     })();

@@ -158,6 +158,10 @@ form div {
     box-shadow: inset -2px -2px 3px rgba(255, 255, 255, .6), inset 2px 2px 3px rgba(0, 0, 0, .6);
 }
 
+.submitButtonstyled:focus {
+    outline: darkblue solid 4px;
+}
+
 
 /* Output Section */
 
@@ -200,11 +204,11 @@ form div {
 
 @media screen and (min-width: 992px) {
     .dogImageContainer {
-        flex: 0 0 300px;
+        /* flex: 0 0 300px; */
         margin: 0px;
     }
     .dogImageContainer img {
-        width: 600px;
+        width: 100%;
         height: 400px;
     }
 }
